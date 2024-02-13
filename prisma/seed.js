@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const password = bcrypt.hashSync("123456");
 
-// สร้างผู้ใช้เป็นชุดข้อมูลเพื่อให้ง่ายต่อการตรวจสอบความซ้ำกัน
+
 const userData = [
   {
     username: "user4",

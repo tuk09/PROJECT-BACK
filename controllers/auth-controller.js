@@ -5,7 +5,6 @@ const db = require("../models/db");
 exports.register = async (req, res, next) => {
   const { username, password, confirmPassword, email, otheruserdetails } = req.body;
   try {
-    // validation
     if (!(username && password && confirmPassword)) {
       return next(new Error("Fulfill all inputs"));
     }
@@ -34,18 +33,18 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const {username, password} = req.body
   try {
-    // validation
+    
     if( !(username.trim() && password.trim()) ) {
       throw new Error('username or password must not blank')
     }
-    // find username in db.user
+    
     const user = await db.users.findFirstOrThrow({ where : { username }})
-    // check password
+    
     const pwOk = await bcrypt.compare(password, user.password)
     if(!pwOk) {
       throw new Error('invalid login')
     }
-    // issue jwt token 
+    
     const payload = { id: user.id }
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '30d'
