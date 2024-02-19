@@ -14,10 +14,10 @@ module.exports = async (req, res, next) => {
     const payload = jwt.verify(token,process.env.JWT_SECRET)
     console.log(payload)
     
-    const user = await db.user.findFirstOrThrow({where : {id: payload.id}})
-    delete user.password
-    console.log(user)
-    req.user = user  
+    const users = await db.users.findFirstOrThrow({where : {id: payload.id}})
+    delete users.password
+    console.log(users)
+    req.users = users  
     next()
     
   }catch(err) {

@@ -10,9 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 // ตาราง ผู้ใช้
 model Users {
   id               Int       @id @default(autoincrement())
+  role Role @default(USER)
   username         String    @unique
   password         String
   email            String    @unique

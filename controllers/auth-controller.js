@@ -38,14 +38,14 @@ exports.login = async (req, res, next) => {
       throw new Error('username or password must not blank')
     }
     
-    const user = await db.users.findFirstOrThrow({ where : { username }})
+    const users = await db.users.findFirstOrThrow({ where : { username }})
     
-    const pwOk = await bcrypt.compare(password, user.password)
+    const pwOk = await bcrypt.compare(password, users.password)
     if(!pwOk) {
       throw new Error('invalid login')
     }
     
-    const payload = { id: user.id }
+    const payload = { id: users.id }
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '30d'
     })
@@ -57,5 +57,5 @@ exports.login = async (req, res, next) => {
 };
 
 exports.getme = (req,res,next) => {
-  res.json(req.user)
+  res.json(req.users)
 }
