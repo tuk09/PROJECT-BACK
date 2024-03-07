@@ -4,6 +4,8 @@ const cors = require('cors')
 const notFound = require('./middlewares/notFound')
 const errorMiddleware = require('./middlewares/error')
 const authRoute = require('./routes/auth-route')
+const bookingRoute = require('./routes/booking-route')
+const movieRoute = require('./routes/movie-route')
 
 const app = express()
 
@@ -12,6 +14,8 @@ app.use(express.json())
 
 // service
 app.use('/auth', authRoute)
+app.use('/booking', bookingRoute)
+app.use('/movie', movieRoute)
 
 
 // notFound

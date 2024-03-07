@@ -18,12 +18,15 @@ enum Role {
 // ตาราง ผู้ใช้
 model Users {
   id               Int       @id @default(autoincrement())
-  role Role @default(USER)
+  role             Role      @default(USER)
   username         String    @unique
   password         String
   email            String    @unique
   otheruserdetails String
   bookings         Booking[]
+  Seat             Seat[]
+  Movie            Movie[]
+  Tickets          Tickets[]
 }
 
 //ตาราง การจอง
@@ -40,6 +43,8 @@ model Booking {
   price           Int
   Tickets         Tickets[]
   Payment         Payment[]
+
+  @@map("bookings")
 }
 
 //ตาราง ตั๋ว
@@ -47,17 +52,19 @@ model Tickets {
   id          Int     @id @default(autoincrement())
   booking     Booking @relation(fields: [bookingId], references: [id])
   bookingId   Int     @map("booking_id")
+  user        Users   @relation(fields: [userId], references: [id])
+  userId      Int     @map("user_id")
   seatnumber  Int
   tickrtprice Int
 }
 
 //ตาราง การชำระเงิน
 model Payment {
-  id          Int      @id @default(autoincrement())
-  booking     Booking  @relation(fields: [bookingId], references: [id])
-  bookingId   Int      @map("booking_id")
-  amount      Int
-  paymentdate DateTime
+  id        Int     @id @default(autoincrement())
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  bookingId Int     @map("booking_id")
+  amount    Int
+  payment   Int
 }
 
 //ตาราง ที่นั่ง
@@ -65,6 +72,8 @@ model Seat {
   id          Int       @id @default(autoincrement())
   showtime    Showtimes @relation(fields: [showtimeId], references: [id])
   showtimeId  Int       @map("showtime_id")
+  user        Users     @relation(fields: [userId], references: [id])
+  userId      Int       @map("user_id")
   bookingdate Int
   number      Int
   price       Int
@@ -85,10 +94,14 @@ model Showtimes {
 //ตาราง ภาพยนตร์
 model Movie {
   id          Int         @id @default(autoincrement())
-  title       String
-  genre       String
-  releasedate DateTime
-  duration    String
+  title       String?
+  genre       String?
+  releasedate String?
+  duration    String?
+  user        Users       @relation(fields: [userId], references: [id])
+  userId      Int         @map("user_id")
   Booking     Booking[]
   Showtimes   Showtimes[]
+
+  @@map("movies")
 }
