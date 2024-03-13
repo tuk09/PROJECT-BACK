@@ -14,15 +14,17 @@ exports.getByUser = async (req, res, next) => {
 
 exports.createMovie = async (req, res, next) => {
   const data = req.body
-  try{
+
+  try {
     const rs = await db.movie.create({
-       data : { ...data, userId : req.user.id}
+      data: { ...data, userId: req.user.id }
     })
-    res.json({ msg: 'Create OK' , result : rs })
-  }catch(err) {
+    res.json({ msg: 'Create OK', result: rs })
+  } catch (err) {
     next(err)
+    console.log(data)
   }
-} 
+}
 
 
 exports.updateMovie = async (req, res, next) => {

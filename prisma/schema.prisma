@@ -32,6 +32,7 @@ model Users {
 //ตาราง การจอง
 model Booking {
   id              Int       @id @default(autoincrement())
+  date            DateTime
   user            Users     @relation(fields: [userId], references: [id])
   userId          Int       @map("user_id")
   showtime        Showtimes @relation(fields: [showtimeId], references: [id])
@@ -39,10 +40,8 @@ model Booking {
   movie           Movie     @relation(fields: [movieId], references: [id])
   movieId         Int       @map("movie_id")
   numberoftickets Int
-  bookingdate     DateTime
-  price           Int
-  Tickets         Tickets[]
-  Payment         Payment[]
+  Tickets Tickets[]
+  Payment Payment[]
 
   @@map("bookings")
 }
